@@ -3,8 +3,11 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var puerto = require('./puerto');
+var cantUser = require('./cantidad');
+
 
 var path = require('path');
+
 
 //app.use(express.static(path.join(__dirname, 'frontend')));
 
@@ -22,11 +25,11 @@ app.get('/notificar/:usuario/:mensaje', function(req, res, next){
 
 	 if(usuario == 'edinson'){
 	 	isSocket(txt, usuario);
-	 	console.log('Ingrese a notificaciones edinson');
+	 	console.log('Ingrese a notificaciones: ' + usuario);
 	 }
 	 else if(usuario == 'sergio'){
 	 	isSocket(txt, usuario);
-	 	console.log('Ingrese a notificaciones sergio')
+	 	console.log('Ingrese a notificaciones sergio: ' + usuario)
 	 }
 	 else {
 	 	console.log('error');
@@ -39,13 +42,20 @@ app.get('/notificar/:usuario/:mensaje', function(req, res, next){
 
 function isSocket(mensaje, user){
 	io.on('connection', function(socket){
-		console.log('usuario ' + socket.id);
+		//console.log('usuario ' + socket.id);
+		cantUser.conectados(io.engine.clientsCount);
 
+		
+
+	});
+
+	io.on('connect', function(socket){
 		socket.on('edinson', function(data){
 			if(data.Nombre == user){
 				socket.emit('mensajeEdinson', {
 					txt: mensaje
 				});
+				console.log(mensaje);
 			}
 			else {
 				socket.emit('notificarTodos', {
@@ -66,9 +76,9 @@ function isSocket(mensaje, user){
 				});
 			}
 		});
-
-		
 	});
+
+
 }
 
 
