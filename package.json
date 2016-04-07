@@ -1,0 +1,18 @@
+{
+  "name": "notificaciones",
+  "version": "1.0.0",
+  "description": "nodejs notificaciones",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "keywords": [
+    "edinson"
+  ],
+  "author": "edinsoncs",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.13.4",
+    "socket.io": "^1.4.5"
+  }
+}
